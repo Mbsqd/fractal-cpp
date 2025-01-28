@@ -5,20 +5,36 @@
 #include <string>
 #include <unordered_map>
 #include <cmath>
+#include <random>
 
 struct BoundingBox {
     sf::Vector2f min, max;
 };
 
-std::vector<char> generateLSystem(int iterations, const std::vector<char>& axiom, const std::unordered_map<char, std::vector<char>>& rules) {
+std::vector<char> generateLSystem(int iterations, const std::vector<char>& axiom, const std::unordered_map<char, std::vector<char>>& rules, float errorPercent) {
+    std::cout<<"Before memo Error -> " << errorPercent << std::endl;
+
     static std::unordered_map<int, std::vector<char>> memo; // Кэш для мемоизации
 
+    static float err_percent_old = errorPercent;
+    if(err_percent_old != errorPercent) {
+        memo.clear();
+    }
+
     if (memo.count(iterations)) return memo[iterations]; // Используем кэш
+
+    std::cout<<"After memo Error -> " << errorPercent << std::endl;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dist(0.0f, 100.0f);
 
     std::vector<char> current = axiom;
     for (int i = 0; i < iterations; ++i) {
         std::vector<char> next;
         for (char c : current) {
+            if(dist(gen) < errorPercent) continue;  // если число меньше errorPercent пропустить символ
+
             if (rules.count(c)) {
                 next.insert(next.end(), rules.at(c).begin(), rules.at(c).end()); // Добавляем правило
             } else {
@@ -71,7 +87,10 @@ sf::Vector2f calculateStartPosition(sf::RenderTexture& texture, const std::vecto
     BoundingBox bbox = computeBoundingBox(instructions, angle, length);
     sf::Vector2f size = bbox.max - bbox.min;
     sf::Vector2f imageSize(texture.getSize().x, texture.getSize().y); // Размер изображения
-    float scale = std::min(imageSize.x / size.x, imageSize.y / size.y) * 0.9f; // 0.9 для отступов // Вычисляем масштаб, чтобы фрактал вписался в окно
+
+    // float scale = std::min(imageSize.x / size.x, imageSize.y / size.y) * 0.9f; // 0.9 для отступов // Вычисляем масштаб, чтобы фрактал вписался в окно
+
+    float scale = std::min(imageSize.x / size.x, imageSize.y / size.y); // без отступов
     sf::Vector2f start_position = (imageSize - (size * scale)) * 0.5f - bbox.min * scale; // Корректируем начальную позицию (центрируем)
 
     return start_position;
@@ -105,6 +124,32 @@ void drawLSystem(sf::RenderTexture& texture, std::vector<char>& instructions, fl
     texture.clear(sf::Color::White);
     texture.draw(lines);
     texture.display();
+}
+
+bool saveLSystemToFile(const std::vector<char>& instructions, const std::string& filename) {
+    std::ofstream file(filename);
+    if (!file) return false;
+
+    for(char c : instructions) {
+        file << c;
+    }
+
+    file.close();
+    return true;
+}
+
+std::vector<char> readLSystemFromFile(const std::string& filename) {
+    std::ifstream file(filename);
+    if(!file) return {};
+
+    std::vector<char> instructions;
+    char c;
+    while(file.get(c)) {
+        if(c != '\n' && c != '\r') instructions.push_back(c);
+    }
+
+    file.close();
+    return instructions;
 }
 
 #endif
