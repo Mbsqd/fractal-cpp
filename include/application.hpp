@@ -87,6 +87,21 @@ public:
         return true;
     }
 
+    double getFractalDimension() {
+        int width = 0;
+        int height = 0;
+
+        std::cout << "Try open: ./output/" << filename << ".bmp" << std::endl;
+        auto image = readBmp("./output/" + filename + ".bmp", width, height);
+        if(image.empty()) {
+             std::cerr <<"Failed open: ./output/" + filename + ".bmp file" << std::endl;
+        }
+
+        double fractalDim = calculateFractalDimension(image);
+
+        return fractalDim;
+    }
+
 private:
     unsigned int win_size_x;
     unsigned int win_size_y;
