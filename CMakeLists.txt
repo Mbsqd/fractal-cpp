@@ -13,5 +13,13 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 add_executable(main src/main.cpp)
-target_compile_features(main PRIVATE cxx_std_17)
+
+set(OUTPUT_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/output")
+add_custom_command(TARGET main POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${OUTPUT_DIR}
+    COMMENT "Created directory: ${OUTPUT_DIR}"
+)
+
+target_include_directories(main PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_compile_features(main PRIVATE cxx_std_20)
 target_link_libraries(main PRIVATE SFML::Graphics)
