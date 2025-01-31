@@ -1,42 +1,37 @@
-#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
 
-#include "config.hpp"
 #include "application.hpp"
-#include "fractal.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
-    application_data_s app_config{};
+    //main.exe 0 my_name 3 80 0 0 0 10
 
-    auto application = Application{app_config};
-    // auto window = application.run();
-
-    bool fractalIsDrawAndSave = application.drawAndSaveFractal(app_config.FILENAME, app_config.START_ERROR_PERCENT);
-    if(!fractalIsDrawAndSave) {
-        std::cerr << "Failed draw and save fractal" << std::endl;
-        system("pause");
+    if (argc < 9) {
+        std::cerr << "Usage: " << argv[0] << " <fractal_type> <file_name> <ls_iters> <line_length> <start_error> <end_error> <error_step> <count_iters_for_one_error>\n";
         return 1;
     }
 
-    double fractalDimension = 0;
-
-    fractalDimension = application.getFractalDimension();
-    if(fractalDimension == 0) {
-        std::cerr << "Failed calculate fractal dimension" << std::endl;
-        system("pause");
+    std::vector<std::string> args(argv + 1, argv + argc);
+    for(const auto& arg : args) {
+        std::cout << "Argument ->  " << arg << std::endl;
     }
 
-    std::cout<<"Fractal dimension: " << fractalDimension << std::endl;
+    InputData input_data
+    {
+        static_cast<fractal_type>(std::stoi(args.at(0))), // enum
+        std::string(args.at(1)),                          // string
+        std::stoi(args.at(2)),                            // int
+        std::stoi(args.at(3)),                            // int
+        std::stof(args.at(4)),                            // float
+        std::stof(args.at(5)),                            // float
+        std::stof(args.at(6)),                            // float
+        std::stof(args.at(7))                             // float
+    };
 
+    auto application = Application{input_data};
 
-    // bool fractalsIsDrawAndSave = application.drawAndSave100Fractals();
-    // if (!fractalsIsDrawAndSave) {
-    //     std::cerr << "Failed draw and save fractals" << std::endl;
-    //     system("pause");
-    //     return 1;
-    // }
+    application.drawFractal();
 
     system("pause");
     return 0;

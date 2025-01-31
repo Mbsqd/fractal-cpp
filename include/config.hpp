@@ -5,28 +5,32 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
-
-struct window_data_s {
-    unsigned int WIN_SIZE_X = 1024;
-    unsigned int WIN_SIZE_Y = 768;
-    unsigned int MAX_FRAMERATE = 144;
-    std::string WIN_NAME = "FractalCpp";
-};
+#include <cmath>
 
 struct application_data_s {
-    window_data_s window_config{};
-    int ITERATIONS = 3;
-    float ANGLE = 60;
-    float LENGTH = 80;
-    float START_ERROR_PERCENT = 0;
+    int LSYSTEM_ITERATIONS = 3;
+    float FRACTAL_ANGLE = 60;
+    float LINE_LENGTH = 80;
     int FRACTAL_MAX_SIZE = 10000;
-    std::vector<float> ERRORS_PERCENT_LIST = { 0, 3, 5, 10, 15, 20, 25 };
+    float START_ANGLE = 60;
+    float COUNT_ITERS_FOR_ONE_ERROR = 10;
+    std::vector<float> ERRORS_PERCENT_LIST = {};
+
+    double THEORETICAL_AVG_DIMENSION = std::log(4)/std::log(3);
+    double THEORETICAL_MIN_DIMENSION = THEORETICAL_AVG_DIMENSION - (THEORETICAL_AVG_DIMENSION / 100 * 2.5);
+    double THEORETICAL_MAX_DIMENSION = THEORETICAL_AVG_DIMENSION + (THEORETICAL_AVG_DIMENSION / 100 * 2.5);
+
+    std::unordered_map<std::string, double> THEORETICAL_DIMENSIONS =
+    {
+        {"th_avg_dimen", {THEORETICAL_AVG_DIMENSION}},
+        {"th_min_dimen", {THEORETICAL_MIN_DIMENSION}},
+        {"th_max_dimen", {THEORETICAL_MAX_DIMENSION}}
+    };
+
+    std::string FRACTAL_NAME = "Koha";
+    std::string FILENAME = "fractal";
     std::vector<char> AXIOM = {'F','-','-','F','-','-','F'};
     std::unordered_map<char, std::vector<char>> RULES = { {'F', {'F','+','F','-','-','F','+','F'}} };
-    std::string FILENAME = "fractal";
-
-    sf::Vector2f START_POSITION{0, 0};
-    float START_ANGLE = 60;
 };
 
 #endif
