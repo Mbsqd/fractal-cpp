@@ -141,6 +141,9 @@ double calculateFractalDimension(const std::vector<std::vector<bool>>& image) {
         if (calculatedImageSize.x <= 0 || calculatedImageSize.y <= 0) {
             std::cerr << "Error: calculatedImageSize is zero (" << calculatedImageSize.x << "x" << calculatedImageSize.y << ")" << std::endl;
             return false;
+        } else if (calculatedImageSize.x >= fractal_max_size || calculatedImageSize.y >= fractal_max_size) {
+            std::cerr << "Error: calculatedImageSize have more then " << fractal_max_size << " (" << calculatedImageSize.x << "x" << calculatedImageSize.y << ")" << std::endl;
+            return false;
         }
 
         sf::RenderTexture texture(calculatedImageSize);
