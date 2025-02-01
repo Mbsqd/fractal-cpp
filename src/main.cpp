@@ -32,61 +32,61 @@ bool configure(int& argc, char** argv, InputData& input_data) {
     return true;
 }
 
-// std::map<int, std::string> fractal_names = {
-//     {0, "koha_snowflake"},
-//     {1, "dragon_curve"},
-//     {2, "sierpinski_curve"},
-//     {3, "levy_curve"},
-//     {4, "square_island_of_koha"},
-// };
+std::map<int, std::string> fractal_names = {
+    {0, "koha_snowflake"},
+    {1, "dragon_curve"},
+    {2, "sierpinski_curve"},
+    {3, "levy_curve"},
+    {4, "square_island_of_koha"},
+};
 
-// bool experement() {
-//     std::cout<<"Start experement" << std::endl;
-//     std::ofstream out_csv_file("./output/results.csv");
-//     if (!out_csv_file.is_open()) {
-//         std::cout<<"Failed open file ./output/results.csv" << std::endl;
-//         return false;
-//     }
+bool experement() {
+    std::cout<<"Start experement" << std::endl;
+    std::ofstream out_csv_file("./output/results.csv");
+    if (!out_csv_file.is_open()) {
+        std::cout<<"Failed open file ./output/results.csv" << std::endl;
+        return false;
+    }
 
-//     out_csv_file << "FractalName,Iterations,Line lenght, Theoretical Dimension, Avarage, Minimal, Maximum\n";
+    out_csv_file << "FractalName,Iterations,Line lenght, Theoretical Dimension, Avarage, Minimal, Maximum\n";
 
-//     for(int fractal = 0; fractal < 5; fractal++) {
-//         for (int iters = 2; iters <= 5; iters++) {
-//             for(int lenght = 10; lenght <= 100; lenght += 10) {
-//                 std::string filename = fractal_names.at(fractal) + "iters-" + std::to_string(iters) + "_lenght-" + std::to_string(lenght);
+    for(int fractal = 0; fractal < 5; fractal++) {
+        for (int iters = 2; iters <= 5; iters++) {
+            for(int lenght = 10; lenght <= 100; lenght += 10) {
+                std::string filename = fractal_names.at(fractal) + "_iters-" + std::to_string(iters) + "_lenght-" + std::to_string(lenght);
 
-//                 InputData exp_data{ static_cast<fractal_type>(fractal), filename, iters, lenght, 0.0f, 0.0f, 0.0f, 1};
-//                 auto app = Application(exp_data);
-//                 app.drawFractal();
-//             }
-//         }
-//     }
+                InputData exp_data{ static_cast<fractal_type>(fractal), filename, iters, lenght, 0.0f, 0.0f, 0.0f, 1};
+                auto app = Application(exp_data);
+                app.drawFractal();
+            }
+        }
+    }
 
-//     out_csv_file.close();
+    out_csv_file.close();
 
-//     std::cout<<"End experement" << std::endl;
-//     return true;
-// }
+    std::cout<<"End experement" << std::endl;
+    return true;
+}
 
 int main(int argc, char* argv[])
 {
     //main.exe 0 my_name 3 80 0 0 0 10
 
-    // bool result = experement();
-    // if(!result) {
-    //     std::cerr << "Failed experement" << std::endl;
-    //     return 1;
-    // }
-
-    InputData input_data;
-    bool result = configure(argc, argv, input_data);
+    bool result = experement();
     if(!result) {
-        std::cout << "Failed configuration" << std::endl;
+        std::cerr << "Failed experement" << std::endl;
         return 1;
     }
 
-    auto application = Application{input_data};
-    application.drawFractal();
+    // InputData input_data;
+    // bool result = configure(argc, argv, input_data);
+    // if(!result) {
+    //     std::cout << "Failed configuration" << std::endl;
+    //     return 1;
+    // }
+
+    // auto application = Application{input_data};
+    // application.drawFractal();
 
     system("pause");
     return 0;

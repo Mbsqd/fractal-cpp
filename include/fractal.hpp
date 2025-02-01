@@ -198,6 +198,7 @@ double calculateFractalDimension(const std::vector<std::vector<bool>>& image) {
             }
 
             files.writeManyToCsvFile(out_csv_file, fractal_dimensions_vector, current_error_percent, fractal_data);
+            fractal_dimensions_vector.clear();
         }
 
         out_csv_file.close();
