@@ -72,21 +72,21 @@ int main(int argc, char* argv[])
 {
     //main.exe 0 my_name 3 80 0 0 0 10
 
-    bool result = experement();
-    if(!result) {
-        std::cerr << "Failed experement" << std::endl;
-        return 1;
-    }
-
-    // InputData input_data;
-    // bool result = configure(argc, argv, input_data);
+    // bool result = experement();
     // if(!result) {
-    //     std::cout << "Failed configuration" << std::endl;
+    //     std::cerr << "Failed experement" << std::endl;
     //     return 1;
     // }
 
-    // auto application = Application{input_data};
-    // application.drawFractal();
+    InputData input_data;
+    bool result = configure(argc, argv, input_data);
+    if(!result) {
+        std::cout << "Failed configuration" << std::endl;
+        return 1;
+    }
+
+    auto application = Application{input_data};
+    application.drawFractal();
 
     system("pause");
     return 0;
