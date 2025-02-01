@@ -78,26 +78,27 @@ public:
         texture.display();
     }
 
-    double calculateFractalDimension(const std::vector<std::vector<bool>>& image) {
-        int width = image[0].size();
-        int height = image.size();
-        int minL = std::min(width, height);
-        int maxN = static_cast<int>(std::floor(minL * 0.2)); //before = 0.2
+double calculateFractalDimension(const std::vector<std::vector<bool>>& image) {
+    int width = image[0].size();
+    int height = image.size();
+    int minL = std::min(width, height);
+    int maxN = static_cast<int>(std::floor(minL * 0.2));
 
-        std::vector<int> ns(10); // before: 10 result = 1,2575 , after: 20
-        std::vector<int> countResults(10);
+    std::vector<int> ns(10);
+    std::vector<int> countResults(10);
 
-        for (int i = 0, n = maxN; i < 10; i++) {
-            ns[i] = n;
-            n = static_cast<int>(std::floor(n / 1.3)); // before: 1.3
-        }
-
-        for (int i = 0; i < 10; i++) {
-            countResults[i] = countBoxes(image, ns[i]);
-        }
-
-        return processArrays(ns, countResults);
+    for (int i = 0, n = maxN; i < 10; i++) {
+        ns[i] = n;
+        n = std::max(1, static_cast<int>(std::floor(n / 1.3))); // Защита от нуля
     }
+
+    for (int i = 0; i < 10; i++) {
+        if (ns[i] <= 0) break; // Если n стало 0, выходим из цикла
+        countResults[i] = countBoxes(image, ns[i]);
+    }
+
+    return processArrays(ns, countResults);
+}
 
     double getFractalDimension(std::string full_filename) {
         int width = 0;
@@ -108,7 +109,7 @@ public:
              std::cerr <<"Failed open: " << files.getFullImageFileString() << std::endl;
              return 0;
         }
-
+        std::cout << "BMP file is open" << std::endl;
         double fractalDim = calculateFractalDimension(image);
 
         return fractalDim;

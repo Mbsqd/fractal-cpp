@@ -23,7 +23,8 @@ struct InputData {
     float start_error = 0;
     float end_error = 0;
     float error_step = 0;
-    float count_iters_for_one_error = 0;
+    float mistake = 2.5;
+    int count_iters_for_one_error = 1;
 };
 
 class Application {
@@ -34,6 +35,7 @@ public:
         cfg.LINE_LENGTH = input_data.line_lenght;
         cfg.COUNT_ITERS_FOR_ONE_ERROR = input_data.count_iters_for_one_error;
         cfg.FILENAME = input_data.file_name;
+        cfg.MISTAKE = input_data.mistake;
         cfg.ERRORS_PERCENT_LIST = generateErrorList(input_data.start_error, input_data.end_error, input_data.error_step);
 
         // Название фрактала
@@ -43,30 +45,50 @@ public:
                 cfg.AXIOM = {'F', '-', '-', 'F', '-', '-', 'F'};
                 cfg.RULES = {{'F', {'F', '+', 'F', '-', '-', 'F', '+', 'F'}}};
                 cfg.FRACTAL_ANGLE = 60;
+
+                cfg.THEORETICAL_AVG_DIMENSION = std::log(4)/std::log(3);
+                cfg.THEORETICAL_MIN_DIMENSION = cfg.THEORETICAL_AVG_DIMENSION - (cfg.THEORETICAL_AVG_DIMENSION / 100 * cfg.MISTAKE);
+                cfg.THEORETICAL_MAX_DIMENSION = cfg.THEORETICAL_AVG_DIMENSION - (cfg.THEORETICAL_AVG_DIMENSION / 100 * cfg.MISTAKE);
                 break;
             case fractal_type::dragon_curve:
                 cfg.FRACTAL_NAME = "Dragon Curve";
                 cfg.AXIOM = {'F', 'X'};
                 cfg.RULES = {{'X', {'X', '+', 'Y', 'F', '+'}}, {'Y', {'-', 'F', 'X', '-', 'Y'}}};
                 cfg.FRACTAL_ANGLE = 90;
+
+                cfg.THEORETICAL_AVG_DIMENSION = std::log(2)/std::log(std::sqrt(2));
+                cfg.THEORETICAL_MIN_DIMENSION = cfg.THEORETICAL_AVG_DIMENSION - (cfg.THEORETICAL_AVG_DIMENSION / 100 * cfg.MISTAKE);
+                cfg.THEORETICAL_MAX_DIMENSION = cfg.THEORETICAL_AVG_DIMENSION - (cfg.THEORETICAL_AVG_DIMENSION / 100 * cfg.MISTAKE);
                 break;
             case fractal_type::sierpinski_curve:
                 cfg.FRACTAL_NAME = "Sierpinski Curve";
                 cfg.AXIOM = {'F', '+', 'X', 'F', '+', 'F', '+', 'X', 'F'};
                 cfg.RULES = {{'X', {'X', 'F', '-', 'F', '+', 'F', '-', 'X', 'F', '+', 'F', '+', 'X', 'F', '-', 'F', '+', 'F', '-', 'X'}}};
                 cfg.FRACTAL_ANGLE = 90;
+
+                cfg.THEORETICAL_AVG_DIMENSION = std::log(3)/std::log(2);
+                cfg.THEORETICAL_MIN_DIMENSION = cfg.THEORETICAL_AVG_DIMENSION - (cfg.THEORETICAL_AVG_DIMENSION / 100 * cfg.MISTAKE);
+                cfg.THEORETICAL_MAX_DIMENSION = cfg.THEORETICAL_AVG_DIMENSION - (cfg.THEORETICAL_AVG_DIMENSION / 100 * cfg.MISTAKE);
                 break;
             case fractal_type::levy_curve:
                 cfg.FRACTAL_NAME = "Levy Curve";
                 cfg.AXIOM = {'F'};
                 cfg.RULES = {{'F', {'+', 'F', '-', '-', 'F', '+'}}};
                 cfg.FRACTAL_ANGLE = 45;
+
+                cfg.THEORETICAL_AVG_DIMENSION = std::log(2)/std::log(std::sqrt(2));
+                cfg.THEORETICAL_MIN_DIMENSION = cfg.THEORETICAL_AVG_DIMENSION - (cfg.THEORETICAL_AVG_DIMENSION / 100 * cfg.MISTAKE);
+                cfg.THEORETICAL_MAX_DIMENSION = cfg.THEORETICAL_AVG_DIMENSION - (cfg.THEORETICAL_AVG_DIMENSION / 100 * cfg.MISTAKE);
                 break;
             case fractal_type::square_island_of_koha:
                 cfg.FRACTAL_NAME = "Square Island of Koch";
                 cfg.AXIOM = {'F', '+', 'F', '+', 'F', '+', 'F'};
                 cfg.RULES = {{'F', {'F', '-', 'F', '+', 'F', '+', 'F', 'F', 'F', '-', 'F', '-', 'F', '+', 'F'}}};
                 cfg.FRACTAL_ANGLE = 90;
+
+                cfg.THEORETICAL_AVG_DIMENSION = std::log(12)/std::log(3);
+                cfg.THEORETICAL_MIN_DIMENSION = cfg.THEORETICAL_AVG_DIMENSION - (cfg.THEORETICAL_AVG_DIMENSION / 100 * cfg.MISTAKE);
+                cfg.THEORETICAL_MAX_DIMENSION = cfg.THEORETICAL_AVG_DIMENSION - (cfg.THEORETICAL_AVG_DIMENSION / 100 * cfg.MISTAKE);
                 break;
         }
     }

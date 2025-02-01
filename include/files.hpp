@@ -111,19 +111,35 @@ public:
         for(auto dimension : dimensions_vector) {
             if (dimension > fractal_data.th_dimens["th_max_dimen"]) {
                 maximum_dimension.push_back(dimension);
-                maximum += dimension;
+                // maximum += dimension;
             } else if (dimension < fractal_data.th_dimens["th_min_dimen"]) {
                 minimal_dimension.push_back(dimension);
-                minimal += dimension;
+                // minimal += dimension;
             } else {
                 avarage_dimension.push_back(dimension);
                 avarage += dimension;
             }
         }
 
+        for(int i = 0; i < minimal_dimension.size(); i++) {
+            if (i == 0) {
+                 minimal = minimal_dimension.at(i);
+            }
+
+            if(minimal > minimal_dimension.at(i)) minimal = minimal_dimension.at(i);
+        }
+
+        for(int i = 0; i < maximum_dimension.size(); i++) {
+            if (i == 0) {
+                 maximum = maximum_dimension.at(i);
+            }
+
+            if(maximum < maximum_dimension.at(i)) maximum = maximum_dimension.at(i);
+        }
+
         avarage = avarage_dimension.size() == 0 ? 0 : avarage / avarage_dimension.size();
-        minimal = minimal_dimension.size() == 0 ? 0 : minimal / minimal_dimension.size();
-        maximum = maximum_dimension.size() == 0 ? 0 : maximum / maximum_dimension.size();
+        minimal = minimal_dimension.size() == 0 ? 0 : minimal;
+        maximum = maximum_dimension.size() == 0 ? 0 : maximum;
 
 
         out_file << fractal_data.title << ","
