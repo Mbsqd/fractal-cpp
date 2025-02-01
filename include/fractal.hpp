@@ -56,8 +56,8 @@ public:
         for (char c : instructions) {
             if (c == 'F') {
                 sf::Vector2f newPosition = dls_start_position + sf::Vector2f(cos(dls_start_angle * 3.14159 / 180) * line_lenght, sin(dls_start_angle * 3.14159 / 180) * line_lenght);
-                lines.append(sf::Vertex({dls_start_position, sf::Color::Red}));
-                lines.append(sf::Vertex({newPosition, sf::Color::Red}));
+                lines.append(sf::Vertex({dls_start_position, sf::Color::Black}));
+                lines.append(sf::Vertex({newPosition, sf::Color::Black}));
                 dls_start_position = newPosition;
             } else if (c == '+') {
                 dls_start_angle += work_angle;
