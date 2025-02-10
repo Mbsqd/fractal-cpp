@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <algorithm>
 
 #include "stb_image.h"
 
@@ -154,6 +155,30 @@ public:
 
     std::string getFullSheetFileString() {
         return sheet_full_file_string;
+    }
+
+    void writeManyToCsvFileSecond(std::ofstream &out_file, std::vector<double>& dimensions_vector, float current_error_percent, FractalDataForSheet fractal_data) {
+        double avarage, minimal, maximum = 0;
+
+        minimal = *std::min_element(begin(dimensions_vector), end(dimensions_vector));
+        maximum = *std::max_element(begin(dimensions_vector), end(dimensions_vector));
+
+        int i = 0;
+        for(i = 0; i < dimensions_vector.size(); i++) {
+             avarage += dimensions_vector.at(i);
+        }
+
+        avarage = avarage / i+1;
+
+
+        out_file << fractal_data.title << ","
+                << fractal_data.iterations << ","
+                << fractal_data.lenght << ","
+                << fractal_data.th_dimens["th_avg_dimen"] << ","
+                << avarage << ","
+                << minimal << ","
+                << maximum << ","
+                << current_error_percent << "\n";
     }
 
 private:

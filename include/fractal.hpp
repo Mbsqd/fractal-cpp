@@ -197,7 +197,7 @@ double calculateFractalDimension(const std::vector<std::vector<bool>>& image) {
                 if (!fractalIsDrawAndSave) continue;;
             }
 
-            files.writeManyToCsvFile(out_csv_file, fractal_dimensions_vector, current_error_percent, fractal_data);
+            files.writeManyToCsvFileSecond(out_csv_file, fractal_dimensions_vector, current_error_percent, fractal_data);
             fractal_dimensions_vector.clear();
         }
 

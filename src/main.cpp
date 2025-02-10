@@ -42,23 +42,23 @@ std::map<int, std::string> fractal_names = {
 
 bool experement() {
     std::cout<<"Start experement" << std::endl;
-    std::ofstream out_csv_file("./output/results.csv");
+    std::ofstream out_csv_file("./output/results3.csv");
     if (!out_csv_file.is_open()) {
-        std::cout<<"Failed open file ./output/results.csv" << std::endl;
+        std::cout<<"Failed open file ./output/results3.csv" << std::endl;
         return false;
     }
 
     out_csv_file << "FractalName,Iterations,Line lenght, Theoretical Dimension, Avarage, Minimal, Maximum\n";
 
-    for(int fractal = 0; fractal < 5; fractal++) {
-        for (int iters = 2; iters <= 5; iters++) {
-            for(int lenght = 10; lenght <= 100; lenght += 10) {
-                std::string filename = fractal_names.at(fractal) + "_iters-" + std::to_string(iters) + "_lenght-" + std::to_string(lenght);
+    for (int iters = 10; iters <= 12; iters++) {
+    int counter = 10;
+        for(int lenght = 20; lenght <= 100; lenght += counter) {
 
-                InputData exp_data{ static_cast<fractal_type>(fractal), filename, iters, lenght, 0.0f, 0.0f, 0.0f, 1};
-                auto app = Application(exp_data);
-                app.drawFractal();
-            }
+            std::string filename = fractal_names.at(3) + "_iters-" + std::to_string(iters) + "_lenght-" + std::to_string(lenght);
+
+            InputData exp_data{ static_cast<fractal_type>(3), filename, iters, lenght, 0.0f, 0.0f, 0.0f, 1};
+            auto app = Application(exp_data);
+            app.drawFractal();
         }
     }
 
@@ -70,7 +70,12 @@ bool experement() {
 
 int main(int argc, char* argv[])
 {
-    //main.exe 0 my_name 3 80 0 0 0 10
+    //main.exe 0 my_name 3 80 0 0 0 1 10
+
+    // mkdir build
+    // cd build
+    // cmake -DCMAKE_BUILD_TYPE=Release ..
+    // cmake --build . --config Release
 
     // bool result = experement();
     // if(!result) {
