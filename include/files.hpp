@@ -163,12 +163,11 @@ public:
         minimal = *std::min_element(begin(dimensions_vector), end(dimensions_vector));
         maximum = *std::max_element(begin(dimensions_vector), end(dimensions_vector));
 
-        int i = 0;
-        for(i = 0; i < dimensions_vector.size(); i++) {
+        for(int i = 0; i < dimensions_vector.size(); i++) {
              avarage += dimensions_vector.at(i);
         }
 
-        avarage = avarage / i+1;
+        avarage = avarage / dimensions_vector.size();
 
 
         out_file << fractal_data.title << ","
